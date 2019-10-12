@@ -7,12 +7,17 @@ public class Iface
     static int current_account = -1;
     static int[] friend_counter = new int[100];
     static int[] request_counter = new int[100];
+    static int[] comm_request_counter = new int[100];
     static int[] community_counter = new int[100];
+    static int[] my_communities = new int[100];
+    static int[] posts_index = new int[100];
+    static int[][] community_requests = new int[100][100];
     static int[][] requests = new int[100][100];
     static int[][] friends = new int[100][100];
     static int[][] community_members = new int[100][100];
     static String[][] community_info = new String[100][2];
-    static String[][] messages = new String[200][200];
+    static String[][] community_feed = new String[100][200];
+    static String[][] messages = new String[100][200];
     static String[] accounts = new String[100];
     static String[] nicks = new String[100];
     static String[] pass = new String[100];
@@ -231,10 +236,22 @@ public class Iface
                     if (option2 == 1)
                     {
                         clear();
-                        draw2();
+                        System.out.println("\n               [1] ------- View a community feed");
+                        System.out.println("               [2] ------- Make a post");
+                        System.out.println("               [0] ------- Back");
                         clear();
-                        show_community();
-                        break;
+                        System.out.print("[IFace] Choose an option >> ");
+                        option2 = input.nextInt();
+                        if (option2 == 1) show_community();
+                        else if (option2 == 2) make_posts();
+                        else if (option2 == 0)
+                        {
+                            clear();
+                            draw2();
+                            clear();
+                            break;
+                        }
+                        else System.out.println("Invalid option!");
                     }
                     else if (option2 == 2)
                     {
@@ -268,9 +285,20 @@ public class Iface
                         if (community_info[current_account][0] != null && community_info[current_account][1] != null)
                         {
                             clear();
+                            System.out.println("\n               [1] ------- View requests");
+                            System.out.println("               [2] ------- Expel someone");
+                            System.out.println("               [0] ------- Back");
+                            clear();
+                            while (option2 != 0)
+                            {
+                                System.out.print("[IFace] Choose an option >> ");
+                                option2 = input.nextInt();
+                                if (option2 == 1 || option2 == 2) manage_community(option2);
+                                else System.out.println("Invalid option!");
+                            }
+                            clear();
                             draw2();
                             clear();
-                            manage_community();
                             break;
                         }
                         else
@@ -315,31 +343,172 @@ public class Iface
         }
         first_menu();
     }
-    public static void available_community()
+    public static void make_posts()
     {
-
-    }
-    public static void manage_community()
-    {
-
-    }
-    public static void show_community()
-    {
-        if (community_counter[current_account] > 0)
+        int choice;
+        Scanner input = new Scanner(System.in);
+        if (my_communities[current_account] > 0)
         {
             System.out.println("Your communities: ");
             for (int i = 0; i < 100; i++)
             {
-                if (community_members[current_account][i] == 1)
+                if (community_members[i][current_account] == 1)
                 {
-                    System.out.printf("Community: %s\n", community_info[i][0]);
+                    System.out.printf("%d Community: %s\n", i+1, community_info[i][0]);
                     System.out.printf("Description: %s\n\n", community_info[i][1]);
                 }
-                else if (community_members[current_account][i] == 2)
+                else if (community_members[i][current_account] == 2)
                 {
-                    System.out.printf("[ADM] Your community: %s\n", community_info[i][0]);
+                    System.out.printf("[ADM] %d Your community: %s\n", i+1, community_info[i][0]);
                     System.out.printf("Description: %s\n\n", community_info[i][1]);
                 }
+            }
+            String post;
+            while (true)
+            {
+                System.out.print("Type the community ID number that you want to make a post (-1 to exit) >> ");
+                choice = input.nextInt();
+                input.nextLine();
+                if (choice <= 0) break;
+                if (choice <= 100)
+                {
+                    if (posts_index[choice-1] > 200) posts_index[choice-1] = 0;
+                    System.out.println("Enter your message: ");
+                    post = input.nextLine();
+                    post += "\n" + "Signed by: " + nicks[current_account] + "\n";
+                    community_feed[choice-1][posts_index[choice-1]] = post;
+                    System.out.println("Sucess! You made a post.");
+                    break;
+                }
+                else System.out.println("Invalid option!");
+            }
+        }
+        else System.out.println("You are not part of any community");
+    }
+    public static void available_community()
+    {
+        Scanner input = new Scanner(System.in);
+        int option;
+        boolean exist = false;
+        for (int i = 0; i < 100; i++)
+        {
+            if (community_info[i][0] != null && i != current_account && community_requests[i][current_account] != 1 && community_members[i][current_account] != 1) 
+            {
+                System.out.printf("%d Community: %s\n", i+1, community_info[i][0]);
+                System.out.printf("Description: %s\n", community_info[i][1]);
+                if (exist == false) exist = true;
+            }
+        }
+        if (exist)
+        {    
+            while (true)
+            {
+                System.out.print("Enter the community number that you want to join >> ");
+                option = input.nextInt();
+                if (option <= 0 || option > 100 || community_requests[option-1][current_account] == 1 || option-1 == current_account)
+                {
+                    System.out.println("Invalid option!");
+                }
+                else break;
+            }
+            community_requests[option-1][current_account] = 1;
+            comm_request_counter[option-1]++;
+            System.out.println("Sucess! Your request has been sent!");
+        }
+        else System.out.println("There are currently no communities available!");
+    }
+    public static void manage_community(int option)
+    {
+        int choice = 0;
+        Scanner input = new Scanner(System.in);
+        if (option == 1)
+        {
+            if (comm_request_counter[current_account] > 0)
+            {    
+                for (int i = 0; i < 100; i++)
+                {
+                    if (community_requests[current_account][i] == 1)
+                    {
+                        System.out.printf("%s wants to join to the community! YES(1) / NO(ANY) >> ", nicks[i]);
+                        choice = input.nextInt();
+                        if (choice == 1) 
+                        {
+                            community_members[current_account][i] = 1;
+                            community_requests[current_account][i] = 0;
+                            comm_request_counter[current_account]--;
+                            community_counter[current_account]++;
+                            my_communities[i]++;
+                        }       
+                    }
+                }
+            }
+            else System.out.println("There are no requests!");
+        }
+        else
+        {
+            if (community_counter[current_account] > 0)
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    if (community_members[current_account][i] == 1) System.out.printf("%d Nickname: %s", i+1, nicks[i]);
+                }
+                while (true)
+                {
+                    System.out.print("Type the user number ID to expel (-1 to exit) >> ");
+                    choice = input.nextInt();
+                    if (choice <= 0) break;
+                    if (choice <= 100 && community_members[current_account][choice-1] == 1)
+                    {
+                        community_members[current_account][choice-1] = 0;
+                        community_counter[current_account]--;
+                        my_communities[choice-1]--;
+                    }
+                    else System.out.println("Invalid option!");
+                }
+            }
+            else System.out.println("Your community currently has no members!");
+        }
+    }
+    public static void show_community()
+    {
+        int choice;
+        Scanner input = new Scanner(System.in);
+        if (my_communities[current_account] > 0)
+        {
+            System.out.println("Your communities: ");
+            for (int i = 0; i < 100; i++)
+            {
+                if (community_members[i][current_account] == 1)
+                {
+                    System.out.printf("%d Community: %s\n", i+1, community_info[i][0]);
+                    System.out.printf("Description: %s\n\n", community_info[i][1]);
+                }
+                else if (community_members[i][current_account] == 2)
+                {
+                    System.out.printf("[ADM] %d Your community: %s\n", i+1, community_info[i][0]);
+                    System.out.printf("Description: %s\n\n", community_info[i][1]);
+                }
+            }
+            boolean exist = false;
+            while (true)
+            {
+                System.out.print("Type the community ID number that you want to see the feed (-1 to exit) >> ");
+                choice = input.nextInt();
+                if (choice <= 0) break;
+                if (choice <= 100 && community_members[choice-1][current_account] >= 1)
+                {
+                    for (int i = 0; i < 200; i++)
+                    {
+                        if (community_feed[choice-1][i] != null) 
+                        {
+                            System.out.println(community_feed[choice-1][i]);
+                            if (exist == false) exist = true;
+                        }
+                    }
+                    if (exist == false) System.out.println("There are no posts in this community!");
+                    else exist = false;
+                }
+                else System.out.println("Invalid option!");
             }
         }
         else System.out.println("You are not part of any community");
@@ -368,7 +537,7 @@ public class Iface
         }
         community_info[current_account][0] = name;
         community_info[current_account][1] = description;
-        community_counter[current_account]++;
+        my_communities[current_account]++;
         community_members[current_account][current_account] = 2;
         System.out.println("Sucess! your community has been created.");
 
