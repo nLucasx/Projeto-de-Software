@@ -49,6 +49,27 @@ public class Iface
         System.out.println("               [5] ------- Delet my account (Dangerous)");
         System.out.println("               [6] ------- Log off");         
     }
+    public static void draw_friends()
+    {
+        System.out.println("\n               [1] ------- Check friend requests");
+        System.out.println("               [2] ------- Search for a person");
+        System.out.println("               [3] ------- Show friend list");
+        System.out.println("               [0] ------- Back");
+    }
+    public static void draw_comm_menu()
+    {
+        System.out.println("\n               [1] ------- My communities");
+        System.out.println("               [2] ------- Available communities");
+        System.out.println("               [3] ------- Create a community");
+        System.out.println("               [4] ------- Manage your community");
+        System.out.println("               [0] ------- Back");
+    }
+    public static void draw_message_menu()
+    {
+        System.out.println("\n               [1] ------- Send Messages");
+        System.out.println("               [2] ------- Mailbox");
+        System.out.println("               [0] ------- Back");
+    }
     public static void first_menu()
     {                  
         clear();
@@ -104,7 +125,7 @@ public class Iface
                 clear();
                 while (true)
                 {
-                    System.out.print("[IFace] Choose an option to edit >> ");
+                    System.out.print("[IFace] Choose an option >> ");
                     option2 = input.nextInt();
                     if (option2 == 0) 
                     {
@@ -115,11 +136,10 @@ public class Iface
                     }
                     else if (option2 >= 1 && option2 <= 3)
                     {
-                        clear();
-                        draw2();
-                        clear();
                         change_data(option2);
-                        break;
+                        clear();
+                        show_profile();
+                        clear();
                     }
                     else System.out.println("Invalid option!");
                 }
@@ -127,10 +147,7 @@ public class Iface
             else if  (option == 2)
             {
                 clear();
-                System.out.println("\n               [1] ------- Check friend requests");
-                System.out.println("               [2] ------- Search for a person");
-                System.out.println("               [3] ------- Show friend list");
-                System.out.println("               [0] ------- Back");
+                draw_friends();
                 clear();
                 while (true)
                 {
@@ -139,37 +156,34 @@ public class Iface
                     if (option2 == 1) 
                     {
                         clear();
-                        draw2();
+                        draw_friends();
                         clear();
                         friend_requests();
-                        break;
                     }
                     else if (option2 == 2)
                     {
                         clear();
-                        draw2();
+                        draw_friends();
                         clear();
                         show_people();
-                        break;
                     }
                     else if (option2 == 3)
                     {
                         if (friend_counter[current_account] == 0) 
                         {
                             clear();
-                            draw2();
+                            draw_friends();
                             clear();
                             System.out.println("You don't have any friends either!");
-                            break;
                         }
                         else
                         {
                             clear();
-                            draw2();
+                            draw_friends();
                             clear();
                             System.out.println("Friends: ");
                             for (int i = 0; i < 100; i++) if (friends[current_account][i] == 1) System.out.printf("Nickname: %s\n", nicks[i]);                   
-                            break;
+
                         }
                     }
                     else if (option2 == 0)
@@ -185,9 +199,7 @@ public class Iface
             else if (option == 3)
             {
                 clear();
-                System.out.println("\n               [1] ------- Send Messages");
-                System.out.println("               [2] ------- Mailbox");
-                System.out.println("               [0] ------- Back");
+                draw_message_menu();
                 clear();
                 while (true)
                 {
@@ -196,20 +208,18 @@ public class Iface
                     if (option2 == 1)
                     {
                         clear();
-                        draw2();
+                        draw_message_menu();
                         clear();
                         send_message();
-                        break;
                     }
                     else if (option2 == 2)
                     {
                         clear();
-                        draw2();
+                        draw_message_menu();
                         clear();
                         mailbox();
-                        break;
                     }
-                    else if (option == 0)
+                    else if (option2 == 0)
                     {
                         clear();
                         draw2();
@@ -222,12 +232,7 @@ public class Iface
             else if (option == 4)
             {
                 clear();
-                System.out.println("\n               [1] ------- My communities");
-                System.out.println("               [2] ------- Available communities");
-                System.out.println("               [3] ------- Create a community");
-                System.out.println("               [4] ------- Manage your community");
-                
-                System.out.println("               [0] ------- Back");
+                draw_comm_menu();
                 clear();
                 while (true)
                 {
@@ -240,44 +245,44 @@ public class Iface
                         System.out.println("               [2] ------- Make a post");
                         System.out.println("               [0] ------- Back");
                         clear();
-                        System.out.print("[IFace] Choose an option >> ");
-                        option2 = input.nextInt();
-                        if (option2 == 1) show_community();
-                        else if (option2 == 2) make_posts();
-                        else if (option2 == 0)
+                        while (true)
                         {
-                            clear();
-                            draw2();
-                            clear();
-                            break;
-                        }
+                            System.out.print("[IFace] Choose an option >> ");
+                            option2 = input.nextInt();
+                            if (option2 == 1) show_community();
+                            else if (option2 == 2) make_posts();
+                            else if (option2 == 0)
+                            {
+                                clear();
+                                draw_comm_menu();
+                                clear();
+                                break;
+                            }
                         else System.out.println("Invalid option!");
+                        }
                     }
                     else if (option2 == 2)
                     {
                         clear();
-                        draw2();
+                        draw_comm_menu();
                         clear();
                         available_community();
-                        break;
                     }
                     else if (option2 == 3)
                     {
                         if (community_info[current_account][0] == null && community_info[current_account][1] == null)
                         {
                             clear();
-                            draw2();
+                            draw_comm_menu();
                             clear();
                             create_community();
-                            break;
                         }
                         else
                         {
                             clear();
-                            draw2();
+                            draw_comm_menu();
                             clear();
                             System.out.println("You are already a community administrator!");
-                            break;
                         }
                     }
                     else if (option2 == 4)
@@ -297,17 +302,15 @@ public class Iface
                                 else System.out.println("Invalid option!");
                             }
                             clear();
-                            draw2();
+                            draw_comm_menu();
                             clear();
-                            break;
                         }
                         else
                         {
                             clear();
-                            draw2();
+                            draw_comm_menu();
                             clear();
                             System.out.println("You are not a community administrator!");
-                            break;
                         }
                     }
                     else if (option2 == 0)
@@ -370,13 +373,14 @@ public class Iface
                 choice = input.nextInt();
                 input.nextLine();
                 if (choice <= 0) break;
-                if (choice <= 100)
+                if (choice <= 100 && community_members[choice-1][current_account] == 1)
                 {
                     if (posts_index[choice-1] > 200) posts_index[choice-1] = 0;
                     System.out.println("Enter your message: ");
                     post = input.nextLine();
                     post += "\n" + "Signed by: " + nicks[current_account] + "\n";
                     community_feed[choice-1][posts_index[choice-1]] = post;
+                    posts_index[choice-1]++;
                     System.out.println("Sucess! You made a post.");
                     break;
                 }
@@ -551,6 +555,11 @@ public class Iface
         friend_counter[current_account] = 0;
         request_counter[current_account] = 0;
         guests--;
+        my_communities[current_account] = 0;
+        comm_request_counter[current_account] = 0;
+        community_counter[current_account] = 0;
+        community_info[current_account][0] = null;
+        community_info[current_account][1] = null;
         for (int i = 0; i < 100; i++)
         {
             requests[current_account][i] = 0; 
@@ -565,7 +574,16 @@ public class Iface
                 friends[i][current_account] = 0;
                 friend_counter[i]--;
             }
+            if (community_requests[i][current_account] == 1) community_requests[i][current_account] = 0;
+            community_requests[i][current_account] = 0;
+            community_members[i][current_account] = 0;
+            if (community_members[current_account][i] == 1)
+            {
+                my_communities[i]--;
+                community_members[current_account][i] = 0;
+            }
         }
+        for (int i = 0; i < 200; i++) community_feed[current_account][i] = null;
     }
     public static void friend_requests()
     {
@@ -585,7 +603,9 @@ public class Iface
                         if (option == 1)
                         {
                             request_counter[current_account]--;
+                            if (requests[i][current_account] == 1) request_counter[i]--;
                             requests[current_account][i] = 0;
+                            requests[i][current_account] = 0;
                             friends[current_account][i] = 1;
                             friends[i][current_account] = 1;
                             friend_counter[current_account]++;
@@ -594,7 +614,8 @@ public class Iface
                         }
                         else if (option == 0) 
                         {   
-                            System.out.printf("The request will be archived!");
+                            request_counter[current_account]--;
+                            requests[current_account][i] = 0;
                             break;
                         }
                         else System.out.println("Invalid option!");
@@ -650,10 +671,18 @@ public class Iface
         String data;
         if (option == 1)
         {
-            System.out.print("[IFace] Enter your new account name >> ");
-            data = input.nextLine();
-            accounts[current_account] = data;
-            System.out.println("Your account name has been changed!");
+            while (true)
+            {    
+                System.out.print("[IFace] Enter your new account name >> ");
+                data = input.nextLine();
+                if (exist(data, 1)) System.out.println("This username already exists!");
+                else
+                {
+                    accounts[current_account] = data;
+                    System.out.println("Your account name has been changed!");
+                    break;
+                }
+            }
         }
         else if (option == 2)
         {
@@ -866,9 +895,6 @@ public class Iface
                 }
             }
         }
-        clear();
-        draw2();
-        clear();
         if (yes) System.out.println("There is no messages for you!");
     }
     public static void print_registered()
