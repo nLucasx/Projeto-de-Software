@@ -6,7 +6,7 @@ Para executar o programa, certifique-se de possuir o JDK.
 
 Abra o seu terminal e digite:
 
-# javac Iface.java
+# javac IFace.java
 Para compilar o programa.
 
 Para executá-lo utilize o comando:
