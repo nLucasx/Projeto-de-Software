@@ -373,7 +373,7 @@ public class Iface
                 choice = input.nextInt();
                 input.nextLine();
                 if (choice <= 0) break;
-                if (choice <= 100 && community_members[choice-1][current_account] == 1)
+                if (choice <= 100 && (community_members[choice-1][current_account] == 1 || community_members[choice-1][current_account] == 2))
                 {
                     if (posts_index[choice-1] > 200) posts_index[choice-1] = 0;
                     System.out.println("Enter your message: ");
