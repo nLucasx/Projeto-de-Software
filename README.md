@@ -14,7 +14,7 @@ Para executá-lo utilize o comando:
 
 ATENÇÃO:
 # Todos os menus só são acessíveis através dos seus respectivos números de ID.
-# Dentro de cada menu existem submenus
+# Dentro de cada menu existem submenus.
 
 O IFace possui inicialmente um menu de Sign In e Sign Up, para fazer login na conta ou criar uma conta, respectivamente.
 
