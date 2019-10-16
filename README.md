@@ -3,7 +3,7 @@ Projeto Java IFace sem orientação a objetos.
 Aluno: Lucas Buarque de Araujo Barros.
 
 Para executar o programa, certifique-se de possuir o JDK.
-# Como compilar o programa: 
+# Como compilar o programa 
 Abra o seu terminal e digite:
 javac IFace.java
 
@@ -11,10 +11,11 @@ javac IFace.java
 Para executá-lo digite:
 java IFace
 
-# ATENÇÃO:
+# ATENÇÃO
 Todos os menus só são acessíveis através dos seus respectivos números de ID.
 Dentro de cada menu existem submenus.
 
+# Como o IFace funciona
 O IFace possui inicialmente um menu de Sign In e Sign Up, para fazer login na conta ou criar uma conta, respectivamente.
 
 ------- Sign in -> Opção para fazer login em uma conta existente.
