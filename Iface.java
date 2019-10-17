@@ -11,6 +11,7 @@ public class Iface
     static int[] community_counter = new int[100];
     static int[] my_communities = new int[100];
     static int[] posts_index = new int[100];
+    static int[] age = new int[100];
     static int[][] community_requests = new int[100][100];
     static int[][] requests = new int[100][100];
     static int[][] friends = new int[100][100];
@@ -21,6 +22,7 @@ public class Iface
     static String[] accounts = new String[100];
     static String[] nicks = new String[100];
     static String[] pass = new String[100];
+    static String[] status = new String[100];
 
     public static void main(String[] args)
     {   
@@ -46,13 +48,14 @@ public class Iface
         System.out.println("               [2] ------- Friends");
         System.out.println("               [3] ------- Social");
         System.out.println("               [4] ------- Community Space");
-        System.out.println("               [5] ------- Delet my account (Dangerous)");
-        System.out.println("               [6] ------- Log off");         
+        System.out.println("               [5] ------- Search people");
+        System.out.println("               [6] ------- Delete my account (Dangerous)");
+        System.out.println("               [0] ------- Log off");         
     }
     public static void draw_friends()
     {
         System.out.println("\n               [1] ------- Check friend requests");
-        System.out.println("               [2] ------- Search for a person");
+        System.out.println("               [2] ------- Search a person to add");
         System.out.println("               [3] ------- Show friend list");
         System.out.println("               [0] ------- Back");
     }
@@ -68,6 +71,18 @@ public class Iface
     {
         System.out.println("\n               [1] ------- Send Messages");
         System.out.println("               [2] ------- Mailbox");
+        System.out.println("               [0] ------- Back");
+    }
+    public static void draw_comm_menu2()
+    {
+        System.out.println("\n               [1] ------- View a community feed");
+        System.out.println("               [2] ------- Make a post");
+        System.out.println("               [0] ------- Back");
+    }
+    public static void draw_comm_manager()
+    {
+        System.out.println("\n               [1] ------- View requests");
+        System.out.println("               [2] ------- Expel someone");
         System.out.println("               [0] ------- Back");
     }
     public static void first_menu()
@@ -134,7 +149,7 @@ public class Iface
                         clear();
                         break;
                     }
-                    else if (option2 >= 1 && option2 <= 3)
+                    else if (option2 >= 1 && option2 <= 5)
                     {
                         change_data(option2);
                         clear();
@@ -182,7 +197,12 @@ public class Iface
                             draw_friends();
                             clear();
                             System.out.println("Friends: ");
-                            for (int i = 0; i < 100; i++) if (friends[current_account][i] == 1) System.out.printf("Nickname: %s\n", nicks[i]);                   
+                            for (int i = 0; i < 100; i++) if (friends[current_account][i] == 1) 
+                            {
+                                System.out.printf("Nickname: %s\n", nicks[i]);
+                                System.out.printf("Age : %d\n", age[i]);
+                                System.out.printf("Marital status: %s\n", status[i]);
+                            }                   
 
                         }
                     }
@@ -241,16 +261,26 @@ public class Iface
                     if (option2 == 1)
                     {
                         clear();
-                        System.out.println("\n               [1] ------- View a community feed");
-                        System.out.println("               [2] ------- Make a post");
-                        System.out.println("               [0] ------- Back");
+                        draw_comm_menu2();
                         clear();
                         while (true)
                         {
                             System.out.print("[IFace] Choose an option >> ");
                             option2 = input.nextInt();
-                            if (option2 == 1) show_community();
-                            else if (option2 == 2) make_posts();
+                            if (option2 == 1) 
+                            {
+                                show_community();
+                                clear();
+                                draw_comm_menu2();
+                                clear();
+                            }
+                            else if (option2 == 2) 
+                            {
+                                make_posts();
+                                clear();
+                                draw_comm_menu2();
+                                clear();
+                            }
                             else if (option2 == 0)
                             {
                                 clear();
@@ -258,7 +288,7 @@ public class Iface
                                 clear();
                                 break;
                             }
-                        else System.out.println("Invalid option!");
+                            else System.out.println("Invalid option!");
                         }
                     }
                     else if (option2 == 2)
@@ -290,9 +320,7 @@ public class Iface
                         if (community_info[current_account][0] != null && community_info[current_account][1] != null)
                         {
                             clear();
-                            System.out.println("\n               [1] ------- View requests");
-                            System.out.println("               [2] ------- Expel someone");
-                            System.out.println("               [0] ------- Back");
+                            draw_comm_manager();
                             clear();
                             while (option2 != 0)
                             {
@@ -324,7 +352,14 @@ public class Iface
 
                 }
             }
-            else if (option == 5)
+            else if (option == 5) 
+            {
+                clear();
+                draw2();
+                clear();
+                search();
+            }
+            else if (option == 6)
             {
                 System.out.print("Are you sure you want to delete your account? YES(1) / NO(0) >> ");
                 option2 = input.nextInt();
@@ -340,7 +375,7 @@ public class Iface
                     clear();
                 }
             }   
-            else if (option == 6) break;
+            else if (option == 0) break;
             else System.out.println("Invalid option!");
             
         }
@@ -552,6 +587,8 @@ public class Iface
         accounts[current_account] = null;
         nicks[current_account] = null;
         pass[current_account] = null;
+        status[current_account] = null;
+        age[current_account] = 0;
         friend_counter[current_account] = 0;
         request_counter[current_account] = 0;
         guests--;
@@ -637,6 +674,8 @@ public class Iface
                 {
                     if (exist_people == false) exist_people = true;
                     System.out.printf("Name: %s\n", nicks[i]);
+                    System.out.printf("Age: %d\n", age[i]);
+                    System.out.printf("Marital status: %s\n", status[i]);
                 }
             }
         }
@@ -669,6 +708,7 @@ public class Iface
     {
         Scanner input = new Scanner(System.in);
         String data;
+        int myage;
         if (option == 1)
         {
             while (true)
@@ -690,6 +730,21 @@ public class Iface
             data = input.nextLine();
             nicks[current_account] = data;
             System.out.println("Your nickname has been changed!");
+        }
+        else if (option == 3)
+        {
+            System.out.print("[IFace] Enter your new age >> ");
+            myage = input.nextInt();
+            input.nextLine();
+            age[current_account] = myage;
+            System.out.println("Your age has been changed!");
+        }
+        else if (option == 4)
+        {
+            System.out.print("[IFace] Enter your new marital status >> ");
+            data = input.nextLine();
+            status[current_account] = data;
+            System.out.println("Your marital status has been changed!");
         }
         else
         {
@@ -714,7 +769,9 @@ public class Iface
     {
         System.out.printf("\n               [1] ------- Account: %s\n", accounts[current_account]);
         System.out.printf("               [2] ------- Nickname: %s\n", nicks[current_account]);
-        System.out.print("               [3] ------- Password: ");
+        System.out.printf("               [3] ------- Age: %d\n", age[current_account]);
+        System.out.printf("               [4] ------- Marital status: %s\n", status[current_account]);
+        System.out.print("               [5] ------- Password: ");
         for (int i = 0; i < pass[current_account].length(); i++) System.out.print("*");
         System.out.println("\n               [0] ------- Back ");
     }
@@ -788,7 +845,8 @@ public class Iface
     }
     public static void register()
     {
-        String account, nickname, password, confirm;
+        String account, nickname, password, confirm, mstatus;
+        int myage;
         Scanner input = new Scanner(System.in);
         while (true)
         {
@@ -805,6 +863,12 @@ public class Iface
             if (exist(nickname, 0)) System.out.println("This nickname already exists!");
             else break;
         }
+        System.out.print("[IFace] Type your age >> ");
+        myage = input.nextInt();
+        input.nextLine();
+
+        System.out.print("[IFace] Type your marital status >> ");
+        mstatus = input.nextLine();
 
         while (true)
         {    
@@ -824,6 +888,8 @@ public class Iface
                 accounts[i] = account;
                 nicks[i] = nickname;
                 pass[i] = password;
+                status[i] = mstatus;
+                age[i] = myage;
                 break;
             }
         }
@@ -897,12 +963,19 @@ public class Iface
         }
         if (yes) System.out.println("There is no messages for you!");
     }
-    public static void print_registered()
+    public static void search()
     {
-        for (int i = 0; i < 100; i++)
+        String name;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter the name of the person you want to search for >> ");
+        name = input.nextLine();
+        if (exist(name, 0))
         {
-            if (accounts[i] != null) System.out.printf("%s %s %s\n", accounts[i], nicks[i], pass[i]);
+            System.out.printf("Name: %s\n", nicks[friend_position]);
+            System.out.printf("Age: %d\n", age[friend_position]);
+            System.out.printf("Marital status: %s\n", status[friend_position]);
         }
+        else System.out.println("This user does not exist");
     }
     public static void clear()
     {
