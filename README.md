@@ -42,14 +42,17 @@ Na opção de adicionar alguém, será pedido para você digitar o nome da pesso
 Você terá a opção de enviar mensagens para qualquer pessoa cadastrada no IFace e também receberá mensagens através do mailbox. 
 
 ------- Community Space -> Opção para gerenciar comunidades.
-Nesta opção você poderá interagir com outros usuários através de comunidades.
+Nesta opção, você poderá interagir com outros usuários através de comunidades.
 Dentro dela você poderá verificar os posts e fazer posts em comunidades que você faz parte (Opção My Communities).
 Existe uma opção que te listará as comunidades disponíveis e te perguntará em qual comunidade você deseja entrar (Available Communities).
 Existe outra opção para a criação de comunidades. (Um usuário só poderá criar uma comunidade, mas participar várias).
 E a última opção será para você gerenciar a comunidade que vc é administrador. Você poderá aceitar os pedidos das pessoas que querem entrar em sua comunidade e também deletar pessoas da comunidade.
 
+------- Search people -> Opção para encontrar algum usuário na rede.
+Nesta opção, você poderá procurar algum usuário no IFace pelo seu nickname. Caso ele exista, seram retornadas
+todas as informações existentes sobre o perfil deste usuário.
 
-------- Delet my account (Dangerous) -> Opção para DELETAR uma conta cadastrada no IFace.
+------- Delete my account (Dangerous) -> Opção para DELETAR uma conta cadastrada no IFace.
 Exatamente TUDO relacionado a conta será deletado.
 
 ------- Log off -> Opção para desconectar da rede.
